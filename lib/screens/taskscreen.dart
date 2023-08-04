@@ -69,14 +69,17 @@ class _TasksScreenState extends State<TasksScreen> {
                       height: 40,
                       width: 40,
                     )
-                  : Image(
-                      image: NetworkImage(
-                        taskController.profileUrl.value
+                  : ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: Image(
+                        image: NetworkImage(
+                          taskController.profileUrl.value
+                        ),
+                        height: 40,
+                        width: 40,
+                        filterQuality: FilterQuality.low,
                       ),
-                      height: 40,
-                      width: 40,
-                      filterQuality: FilterQuality.low,
-                    ),
+                  ),
             ),
           ),
         ),

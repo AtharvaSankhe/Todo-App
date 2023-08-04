@@ -119,8 +119,8 @@ class _PasswordState extends State<Password> {
                             decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                   icon: isObscure
-                                      ? Icon(Icons.visibility_outlined,color: Colors.black.withOpacity(0.3),)
-                                      : Icon(Icons.visibility_off_outlined,color: Colors.black.withOpacity(0.3),),
+                                      ? Icon(Icons.visibility_off_outlined,color: Colors.black.withOpacity(0.3),)
+                                      : Icon(Icons.visibility_outlined,color: Colors.black.withOpacity(0.3),),
                                   iconSize: 20,
                                   onPressed: () {
                                     setState(() {
