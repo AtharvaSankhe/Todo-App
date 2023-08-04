@@ -33,7 +33,7 @@ class Crud {
 
   deleteTask({required String time }) async{
     await _firebaseFirestore.collection('users').doc(currentUser!.uid).collection('allTask').doc(time).delete();
-    debugPrint("Deleted Task"+time);
+    debugPrint("Deleted Task$time");
   }
 
   // updateTask
@@ -41,5 +41,21 @@ class Crud {
     await _firebaseFirestore.collection('users').doc(currentUser!.uid).collection('allTask').doc(task.time).update(task.toJson());
   }
 
+  Future<String> getProfile() async{
+    String profileUrl='' ;
+    try {
+      DocumentSnapshot userInfo = await _firebaseFirestore.collection("users").doc(currentUser!.uid).get();
+      if (userInfo.exists) {
+        //syntax to get a specific element from schemas
+        Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
+        profileUrl = data['imagePath'];
+      }
+    } catch (e) {
+      // Handle error
+    }
+
+    return profileUrl;
+    // return currentUser!.photoURL! ;
+  }
 
 }

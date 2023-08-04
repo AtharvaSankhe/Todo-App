@@ -6,11 +6,15 @@ import 'package:todo/firebase/curd.dart';
 
 class TaskController extends GetxController {
   RxList<Task> tasks = <Task>[].obs;
+  RxString profileUrl = ''.obs ;
 
   @override
   void onInit() async{
     // tasks.bindStream(Crud().getAllTask());
     tasks.value = await Crud().getAllTask() ;
+    profileUrl.value = await Crud().getProfile() ;
+    debugPrint(profileUrl.value);
+
     super.onInit();
   }
 
