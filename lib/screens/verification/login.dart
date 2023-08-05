@@ -10,6 +10,9 @@ import 'package:todo/screens/taskscreen.dart';
 import 'package:todo/screens/verification/password.dart';
 import 'package:todo/screens/verification/phone.dart';
 import 'package:todo/screens/verification/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo/shared_pref.dart';
+
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -21,6 +24,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   final TextEditingController emailController = TextEditingController();
+  // late SharedPreferences _sharedPreferences;
 
   signinWithGoogle() async {
     // to sign in
@@ -34,7 +38,13 @@ class _LoginState extends State<Login> {
     UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
     debugPrint(userCredential.user?.displayName);
     if(userCredential.user != null){
+      debugPrint('Hello bro before shared pref');
       await Crud().createCollection(email: userCredential.user!.email!, name: userCredential.user!.displayName!,image: userCredential.user!.photoURL);
+      var sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences.setBool('Login', true) ;
+      SharedPreferencesHelper.setUserEmail(userEmail: googleAuth?.accessToken ?? '' );
+      SharedPreferencesHelper.setUserPassword(userPassword: googleAuth?.idToken ?? '');
+      debugPrint('Hello bro');
       Get.offAll(()=>const TasksScreen());
     }
     //to sign out

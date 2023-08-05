@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 
 // import 'package:get/get.dart';
 import 'package:todo/firebase/emailauth.dart';
-// import 'package:todo/utilities/constants.dart';
-// import 'package:todo/utilities/constants.dart';
-// import 'package:todo/screens/taskscreen.dart';
+
 
 class Password extends StatefulWidget {
   final String email;

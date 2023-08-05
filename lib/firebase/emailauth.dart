@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/firebase/curd.dart';
 import 'package:todo/screens/taskscreen.dart';
 import 'package:todo/screens/verification/login.dart';
@@ -40,6 +41,8 @@ class Auth {
   Future<void> verifyOTP(String otp) async{
     var credentials = await _firebaseAuth.signInWithCredential(PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otp),);
     if(credentials.user != null ){
+      var sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences.setBool('Login', true) ;
       Get.offAll(()=>const TasksScreen());
     }else{
       Fluttertoast.showToast(msg: "Can't verify");
@@ -56,7 +59,8 @@ class Auth {
         email:email,
         password: password,
       );
-
+      var sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences.setBool('Login', true) ;
       Get.offAll(()=>const TasksScreen());
 
   }
@@ -72,6 +76,8 @@ class Auth {
         password: password,
       );
       await Crud().createCollection(email: email, name: name);
+      var sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences.setBool('Login', true) ;
       Get.offAll(()=>const TasksScreen());
 
     } on FirebaseAuthException catch (e){
@@ -101,6 +107,8 @@ class Auth {
     try{
       await _firebaseAuth.signOut();
       debugPrint('normal signout');
+      var sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences.setBool('Login', false) ;
       Get.offAll(()=>const Login());
 
 
