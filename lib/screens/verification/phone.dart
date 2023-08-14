@@ -157,7 +157,7 @@ class _PhoneState extends State<Phone> {
                         ),
                         InkWell(
                           onTap: () async {
-
+                            print(phoneController.text);
                             try{
                               await Auth().phoneAuthentication(phoneController.text.trim());
                               Get.to(()=>const OTP());

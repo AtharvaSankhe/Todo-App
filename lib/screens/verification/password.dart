@@ -1,9 +1,13 @@
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:get/get.dart';
 import 'package:todo/firebase/emailauth.dart';
+import 'package:todo/screens/taskscreen.dart';
 
 
 class Password extends StatefulWidget {
@@ -19,6 +23,7 @@ class _PasswordState extends State<Password> {
   final TextEditingController passwordController = TextEditingController();
   final User? user = Auth().currentUser;
   bool isObscure = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +117,7 @@ class _PasswordState extends State<Password> {
                         SizedBox(
                           height: 55,
                           child: TextFormField(
+                            controller: passwordController,
                             cursorColor: Colors.grey,
                             obscureText: isObscure,
                             decoration: InputDecoration(
@@ -150,11 +156,30 @@ class _PasswordState extends State<Password> {
                           onTap: () async {
                             await Auth().signInWithEmailAndPassword(
                                 email: widget.email,
-                                password: passwordController.text);
+                                password: passwordController.text.trim());
+                            // debugPrint('${widget.email}');
+                            // debugPrint(passwordController.text);
+                            //
+                            // try {
+                            //   print('${widget.email}');
+                            //   print(passwordController);
+                            //   await FirebaseAuth.instance
+                            //       .signInWithEmailAndPassword(email: widget.email, password: passwordController.text.trim());
+                            //
+                            //   var sharedPreferences = await SharedPreferences.getInstance();
+                            //   sharedPreferences.setBool('Login', true);
+                            //   Get.offAll(() => const TasksScreen());
+                            // } on FirebaseAuthException catch (e){
+                            //
+                            //     debugPrint('${widget.email}');
+                            //     debugPrint(passwordController.text);
+                            //     Fluttertoast.showToast(msg: e.message.toString());
+                            //
+                            // }
 
-                            Auth().signInWithEmailAndPassword(
-                                email: widget.email,
-                                password: passwordController.text);
+                            // Auth().signInWithEmailAndPassword(
+                            //     email: widget.email,
+                            //     password: passwordController.text);
                           },
                           child: Container(
                             width: double.infinity,
@@ -164,15 +189,12 @@ class _PasswordState extends State<Password> {
                               color: Colors.white.withOpacity(0.25),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Hero(
-                              tag: 'text',
-                              child: Text(
-                                'Continue',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white.withOpacity(0.85),
-                                ),
+                            child: Text(
+                              'Continue',
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white.withOpacity(0.85),
                               ),
                             ),
                           ),

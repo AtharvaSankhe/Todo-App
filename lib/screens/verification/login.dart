@@ -126,7 +126,7 @@ class _LoginState extends State<Login> {
                     ),
                     InkWell(
                       onTap: (){
-                        Get.to(()=>Password(email: emailController.text,));
+                        Get.to(()=>Password(email: emailController.text.trim(),));
                       },
                       child: Container(
                         width: double.infinity,
@@ -136,15 +136,12 @@ class _LoginState extends State<Login> {
                           color: Colors.black.withOpacity(0.25),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Hero(
-                          tag: 'text',
-                          child: Text(
-                            'Continue',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white.withOpacity(0.85),
-                            ),
+                        child: Text(
+                          'Continue',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white.withOpacity(0.85),
                           ),
                         ),
                       ),
@@ -199,8 +196,11 @@ class _LoginState extends State<Login> {
                           children: [
                             Icon(Icons.phone_android,size: 40,),
                             SizedBox(width: 35,),
-                            Text(
-                              'Continue with Mobile No.',
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Text(
+                                'Continue with Mobile No.',
+                              ),
                             ),
                           ],
                         ),

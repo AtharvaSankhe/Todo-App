@@ -21,7 +21,7 @@ class Auth {
 
   Future<void> phoneAuthentication(String phoneNo) async{
     await _firebaseAuth.verifyPhoneNumber(
-        phoneNumber:'+91'+phoneNo,
+        phoneNumber:'+91$phoneNo',
         verificationCompleted: (credential) async{
           await _firebaseAuth.signInWithCredential(credential);
         },
@@ -54,14 +54,26 @@ class Auth {
     required String email,
     required String password,
 }) async {
-    // try{
+    try {
       await _firebaseAuth.signInWithEmailAndPassword(
-        email:email,
+        email: email,
         password: password,
       );
+      // print('$email');
+      // print(password);
+      // await FirebaseAuth.instance
+      //     .signInWithEmailAndPassword(email: email, password: password);
+
       var sharedPreferences = await SharedPreferences.getInstance();
-      sharedPreferences.setBool('Login', true) ;
-      Get.offAll(()=>const TasksScreen());
+      sharedPreferences.setBool('Login', true);
+      Get.offAll(() => const TasksScreen());
+    } on FirebaseAuthException catch (e){
+      print('$email');
+      print(password);
+      {
+        Fluttertoast.showToast(msg: e.message.toString());
+      }
+    }
 
   }
 

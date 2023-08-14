@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:todo/firebase/emailauth.dart';
 
@@ -17,7 +18,7 @@ class _OTPState extends State<OTP> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    var otp;
+    var otp='';
     return Scaffold(
       body: Container(
         height: height,
@@ -64,15 +65,26 @@ class _OTPState extends State<OTP> {
                       focusedBorderColor: Colors.black,
                       borderColor: Colors.white,
                       disabledBorderColor: Colors.white,
+                      // onCodeChanged: (code){
+                      //   otp = otp+code ;
+                      //   print(otp);
+                      //   print(code);
+                      // },
                       onSubmit: (code){
                         otp = code ;
+                        print(code);
+                        print('hello $otp ======');
                         Auth().verifyOTP(otp);
+                        Fluttertoast.showToast(msg: '$code and $otp');
                       },
                     ),
                     const SizedBox(height: 20,),
                     InkWell(
                       onTap: () async {
-                        Auth().verifyOTP(otp);
+                        print('hello $otp ======verify wala part ');
+                        Fluttertoast.showToast(msg: 'and $otp');
+
+                        // Auth().verifyOTP(otp);
                       },
                       child: Container(
                         width: double.infinity,
