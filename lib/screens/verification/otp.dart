@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:todo/controller/signupController.dart';
 import 'package:todo/firebase/emailauth.dart';
 
 class OTP extends StatefulWidget {
@@ -14,6 +16,8 @@ class OTP extends StatefulWidget {
 }
 
 class _OTPState extends State<OTP> {
+
+  final SignUpController signUpController = Get.find() ;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -65,16 +69,11 @@ class _OTPState extends State<OTP> {
                       focusedBorderColor: Colors.black,
                       borderColor: Colors.white,
                       disabledBorderColor: Colors.white,
-                      // onCodeChanged: (code){
-                      //   otp = otp+code ;
-                      //   print(otp);
-                      //   print(code);
-                      // },
                       onSubmit: (code){
                         otp = code ;
                         print(code);
                         print('hello $otp ======');
-                        Auth().verifyOTP(otp);
+                        signUpController.veriftyOTP(otp);
                         Fluttertoast.showToast(msg: '$code and $otp');
                       },
                     ),

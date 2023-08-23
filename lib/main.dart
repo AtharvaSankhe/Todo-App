@@ -10,6 +10,8 @@ import 'package:todo/screens/taskscreen.dart';
 // import 'package:todo/Model/task.dart';
 import 'package:todo/screens/verification/login.dart';
 import 'package:todo/shared_pref.dart';
+
+import 'repository/authenication_repository/authenication_repository.dart';
 // import 'package:todo/screens/verification/signup.dart';
 
 
@@ -26,6 +28,9 @@ void main() async {
   // await Hive.initFlutter();
   // Hive.registerAdapter(TaskAdapter());
   // await Hive.openBox('mytask');
+
+  await Firebase.initializeApp()
+      .then((value) => Get.put(AuthenticationRepository()));
 
   runApp(const MyApp());
 }
@@ -57,41 +62,12 @@ class _SplashState extends State<Splash> {
   // bool? isFirstTime = false;
 
 
-  void isLogin() async {
-    await SharedPreferencesHelper.init();
-    var sharedPreferences = await SharedPreferences.getInstance();
-    bool? isLoggedIn = sharedPreferences.getBool("Login");
 
-    Timer(const Duration(seconds: 5), () async {
-      if(isLoggedIn != null){
-        if(isLoggedIn){
-          debugPrint('isLogged is true');
-          AuthCredential credential = GoogleAuthProvider.credential(
-            accessToken: SharedPreferencesHelper.getUserEmail(),
-            idToken: SharedPreferencesHelper.getUserPassword(),
-          );
-          UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-          debugPrint(userCredential.user?.displayName);
-          Get.offAll(()=>const TasksScreen());
-        } else{
-          debugPrint('isLogged is false');
-          Get.offAll(()=>const Login());
-        }
-      }else{
-        debugPrint('isLogged is null');
-        Get.offAll(()=>const Login());
-      }
-      // print( _sharedPreferences.getBool("Login"));
-
-    });
-
-
-  }
 
   @override
   void initState() {
 
-    isLogin();
+
     super.initState();
 
   }

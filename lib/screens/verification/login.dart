@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:todo/controller/signupController.dart';
 import 'package:todo/firebase/curd.dart';
 // import 'package:hive/hive.dart';
 import 'package:todo/screens/taskscreen.dart';
@@ -23,7 +24,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  final TextEditingController emailController = TextEditingController();
+  final  SignUpController signUpController = Get.put(SignUpController());
+
+
   // late SharedPreferences _sharedPreferences;
 
   signinWithGoogle() async {
@@ -62,7 +65,6 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-    emailController.dispose();
     super.dispose();
   }
 
@@ -101,7 +103,7 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 55,
                       child: TextFormField(
-                        controller: emailController,
+                        controller: signUpController.email ,
                         cursorColor: Colors.grey,
                         decoration: InputDecoration(
                             hintText: 'Email',
@@ -126,7 +128,7 @@ class _LoginState extends State<Login> {
                     ),
                     InkWell(
                       onTap: (){
-                        Get.to(()=>Password(email: emailController.text.trim(),));
+                        Get.to(()=>Password());
                       },
                       child: Container(
                         width: double.infinity,

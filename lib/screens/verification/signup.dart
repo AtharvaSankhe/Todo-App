@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:todo/controller/signupController.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:get/get.dart';
 // import 'package:todo/firebase/curd.dart';
@@ -15,10 +17,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  final User? user = Auth().currentUser;
+  final SignUpController signUpController = Get.find() ;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +118,7 @@ class _SignUpState extends State<SignUp> {
                         SizedBox(
                           height: 55,
                           child: TextFormField(
-                            controller: emailController,
+                            controller: signUpController.email,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: Colors.grey,
                             decoration: InputDecoration(
@@ -145,7 +145,7 @@ class _SignUpState extends State<SignUp> {
                         SizedBox(
                           height: 55,
                           child: TextFormField(
-                            controller: passwordController,
+                            controller: signUpController.password,
                             cursorColor: Colors.grey,
                             obscureText: true,
                             decoration: InputDecoration(
@@ -182,10 +182,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         InkWell(
                           onTap: () async {
-                            await Auth().createUserWithEmailAndPassword(
-                                email: emailController.text,
-                                password: passwordController.text,
-                                name: nameController.text);
+                            signUpController.registerUser(signUpController.email.text.trim(), signUpController.password.text.trim(), nameController.text);
 
                             // if(newUser != null){
                             //   Get.offAll(()=>const TasksScreen());

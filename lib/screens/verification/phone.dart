@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:todo/controller/signupController.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:get/get.dart';
 // import 'package:todo/firebase/curd.dart';
@@ -20,7 +21,7 @@ class Phone extends StatefulWidget {
 class _PhoneState extends State<Phone> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  final User? user = Auth().currentUser;
+  final SignUpController signUpController = Get.find() ;
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +160,7 @@ class _PhoneState extends State<Phone> {
                           onTap: () async {
                             print(phoneController.text);
                             try{
-                              await Auth().phoneAuthentication(phoneController.text.trim());
+                              signUpController.phoneAuth(phoneController.text.trim());
                               Get.to(()=>const OTP());
 
                             } catch(e){

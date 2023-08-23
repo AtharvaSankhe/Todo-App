@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:todo/controller/signupController.dart';
 
 // import 'package:hive_flutter/adapters.dart';
 import 'package:todo/controller/taskController.dart';
@@ -19,6 +20,7 @@ class TasksScreen extends StatefulWidget {
 
 class _TasksScreenState extends State<TasksScreen> {
   TaskController taskController = Get.put(TaskController());
+  final SignUpController signUpController = Get.put(SignUpController());
 
   // final _box = Hive.box('mytask');
 
@@ -45,7 +47,7 @@ class _TasksScreenState extends State<TasksScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Auth().signOut();
+              signUpController.logOut();
               // Get.to(()=>const OTP());
             },
             icon: Icon(

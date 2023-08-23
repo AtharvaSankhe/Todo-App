@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo/controller/signupController.dart';
 
 // import 'package:get/get.dart';
 import 'package:todo/firebase/emailauth.dart';
@@ -11,17 +12,15 @@ import 'package:todo/screens/taskscreen.dart';
 
 
 class Password extends StatefulWidget {
-  final String email;
 
-  const Password({Key? key, required this.email}) : super(key: key);
+  const Password({Key? key, }) : super(key: key);
 
   @override
   State<Password> createState() => _PasswordState();
 }
 
 class _PasswordState extends State<Password> {
-  final TextEditingController passwordController = TextEditingController();
-  final User? user = Auth().currentUser;
+  final SignUpController signUpController = Get.find() ;
   bool isObscure = true;
 
 
@@ -100,7 +99,7 @@ class _PasswordState extends State<Password> {
                                   height: 4,
                                 ),
                                 Text(
-                                  widget.email,
+                                  signUpController.email.text,
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -117,7 +116,7 @@ class _PasswordState extends State<Password> {
                         SizedBox(
                           height: 55,
                           child: TextFormField(
-                            controller: passwordController,
+                            controller: signUpController.password,
                             cursorColor: Colors.grey,
                             obscureText: isObscure,
                             decoration: InputDecoration(
@@ -154,9 +153,8 @@ class _PasswordState extends State<Password> {
                         ),
                         InkWell(
                           onTap: () async {
-                            await Auth().signInWithEmailAndPassword(
-                                email: widget.email,
-                                password: passwordController.text.trim());
+
+                            signUpController.loginUser(signUpController.email.text.trim(), signUpController.password.text.trim());
                             // debugPrint('${widget.email}');
                             // debugPrint(passwordController.text);
                             //
@@ -206,7 +204,7 @@ class _PasswordState extends State<Password> {
                           alignment: Alignment.bottomLeft,
                           child: GestureDetector(
                             onTap: () {
-                              Auth().passwordReset(widget.email);
+                              signUpController.resetPassword(signUpController.email.text.trim());
                             },
                             child: const Text(
                               "Forget your password ?",
